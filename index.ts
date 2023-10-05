@@ -1,8 +1,9 @@
-export type Item = { id: number; parent: number | 'root'; type: string | null }
-export type _Node = { item: Item; childs: _Node[]; parent: _Node | null }
+type Id = number | string
+export type Item = { id: Id; parent: number | 'root'; type: string | null }
+type _Node = { item: Item; childs: _Node[]; parent: _Node | null }
 
 export class TreeStore {
-  private readonly tree = new Map<number, _Node>()
+  private readonly tree = new Map<Id, _Node>()
 
   constructor(private readonly items: Item[]) {
     for (const item of items) {
@@ -25,15 +26,15 @@ export class TreeStore {
     return this.items
   }
 
-  getItem(id: number) {
+  getItem(id: Id) {
     return this.tree.get(id)?.item
   }
 
-  getChildren(id: number) {
+  getChildren(id: Id) {
     return this.tree.get(id)?.childs.map(e => e.item)
   }
 
-  getAllChildren(id: number) {
+  getAllChildren(id: Id) {
     const nodes = [this.tree.get(id)] as _Node[]
     for (let i = 0; i < nodes.length; i++) {
       const childs = nodes[i]?.childs
@@ -41,10 +42,10 @@ export class TreeStore {
         nodes.push(...childs)
       }
     }
-    return nodes.map(e => e.item)
+    return nodes.filter(e => e).map(e => e.item)
   }
 
-  getAllParents(id: number) {
+  getAllParents(id: Id) {
     const nodes = [this.tree.get(id)] as _Node[]
     for (let i = 0; i < nodes.length; i++) {
       const parent = nodes[i]?.parent
@@ -52,6 +53,6 @@ export class TreeStore {
         nodes.push(parent)
       }
     }
-    return nodes.map(e => e.item)
+    return nodes.filter(e => e).map(e => e.item)
   }
 }
