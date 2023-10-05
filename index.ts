@@ -1,5 +1,5 @@
 type Id = number | string
-export type Item = { id: Id; parent: number | 'root'; type: string | null }
+export type Item = { id: Id; parent: Id | 'root'; type?: string | null }
 type _Node = { item: Item; childs: _Node[]; parent: _Node | null }
 
 export class TreeStore {
