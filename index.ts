@@ -35,24 +35,28 @@ export class TreeStore {
   }
 
   getAllChildren(id: Id) {
-    const nodes = [this.tree.get(id)] as _Node[]
+    const node = this.tree.get(id)
+    if (!node) return []
+    const nodes = [node] as _Node[]
     for (let i = 0; i < nodes.length; i++) {
       const childs = nodes[i]?.childs
       if (childs) {
         nodes.push(...childs)
       }
     }
-    return nodes.filter(e => e).map(e => e.item)
+    return nodes.map(e => e.item)
   }
 
   getAllParents(id: Id) {
-    const nodes = [this.tree.get(id)] as _Node[]
+    const node = this.tree.get(id)
+    if (!node) return []
+    const nodes = [node] as _Node[]
     for (let i = 0; i < nodes.length; i++) {
       const parent = nodes[i]?.parent
       if (parent) {
         nodes.push(parent)
       }
     }
-    return nodes.filter(e => e).map(e => e.item)
+    return nodes.map(e => e.item)
   }
 }

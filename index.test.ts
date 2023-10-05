@@ -30,6 +30,10 @@ describe('Tests', () => {
     expect(store.getChildren(4)).toStrictEqual([items[6], items[7]])
   })
 
+  test('getChildren undefined', () => {
+    expect(store.getChildren(5)).toStrictEqual([])
+  })
+
   test('getAllChildren', () => {
     expect(store.getAllChildren(2)).toStrictEqual([
       { id: 2, parent: 1, type: 'test' },
